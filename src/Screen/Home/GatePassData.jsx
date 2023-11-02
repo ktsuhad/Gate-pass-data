@@ -33,6 +33,7 @@ const GatePassData = () => {
     }
   }, [token]);
 
+
   const chartData = [
     {
       name: "Applied",

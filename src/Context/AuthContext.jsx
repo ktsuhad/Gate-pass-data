@@ -3,14 +3,10 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [isVerified, setIsVerified] = useState(false);
-  const [profileData, setProfileData] = useState(JSON.parse(localStorage.getItem('profileData')) || null); // Retrieve profileData from localStorage
+  const [profileData, setProfileData] = useState(JSON.parse(localStorage.getItem('profileData'))); // Retrieve profileData from localStorage
 
-  useEffect(() => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('profileData', JSON.stringify(profileData));
-  }, [token, profileData]);
 
   return (
     <AuthContext.Provider value={{ token, setToken , isVerified , setIsVerified , profileData ,setProfileData}}>

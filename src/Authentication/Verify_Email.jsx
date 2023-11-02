@@ -7,6 +7,7 @@ import { useAuth } from "../Context/AuthContext";
 
 const Verify = () => {
   const [loading, setloading] = useState(false);
+  const [error, setError] = useState(null); // New error state
   const { setIsVerified } = useAuth();
   const {
     register,
@@ -30,11 +31,11 @@ const Verify = () => {
         setIsVerified(true);
         navigate("/register", { replace: true });
       } else {
-        // Handle the error
-        console.error("Email verification failed");
+        setError(response.data.message);
       }
     } catch (error) {
-      // Handle network or other errors
+      // Handle network or other errors and set the error state
+      setError("An error occurred during email verification");
       console.error("An error occurred during email verification", error);
     } finally {
       setloading(false);
@@ -59,13 +60,14 @@ const Verify = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: "Invalid email format",
                   },
                 })}
                 error={!!errors.email}
-                helperText={errors.name?.message}
+                helperText={errors.email?.message}
               />
+              {error && <span className="text-red-600 text-sm">{error}</span>} {/* Display the error message */}
               <Button
                 variant="contained"
                 color="primary"

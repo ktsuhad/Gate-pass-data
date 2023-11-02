@@ -15,6 +15,7 @@ import { useAuth } from "../Context/AuthContext";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { setToken } = useAuth(); //context provider
 
@@ -34,13 +35,18 @@ const Login = () => {
       );
 
       if (response.data.status) {
+        localStorage.setItem('token', response.data.token); // Save the token in localStorage
         setToken(response.data.token); // Save the token
         navigate("/staff-profile", { replace: true });
       } else {
         console.log("Login failed. Please check your credentials.");
+        setError(
+          "The email address or password you entered is incorrect. Please check your credentials and try again."
+        );
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data.non_field_errors[0]);
+      setError(error.response.data.non_field_errors[0]);
     } finally {
       setLoading(false);
     }
@@ -99,6 +105,7 @@ const Login = () => {
                   </Tooltip>
                 </div>
               </div>
+              {error && <span className="text-red-600 text-sm">{error}</span>}
               <Link
                 to="/reset"
                 className="text-sm text-indigo-600 hover:text-indigo-500"
@@ -114,7 +121,6 @@ const Login = () => {
                   Register
                 </Link>
               </p>
-
               <Button
                 variant="contained"
                 color="success"

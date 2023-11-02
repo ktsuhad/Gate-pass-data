@@ -39,6 +39,7 @@ const UpdateProfileForm = ({ profileData, onUpdateSuccess }) => {
 
       if (response.data) {
         onUpdateSuccess(response.data);
+        localStorage.setItem("profileData", JSON.stringify(response.data));
         setProfileData(response.data);
       }
     } catch (error) {

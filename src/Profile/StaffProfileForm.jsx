@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Button,
@@ -25,11 +25,18 @@ const StaffProfileForm = () => {
     blood_group: "",
   });
 
-  const navigate = useNavigate();
   const [selectedImageName, setSelectedImageName] = useState(""); // New state for selected image name
   const [loading, setLoading] = useState(false); // New state for loading indicator
   const [error, setError] = useState(""); // New state for error message
-  const { token, setProfileData } = useAuth();
+  const { token, profileData, setProfileData } = useAuth();
+  const navigate = useNavigate();
+
+  // Check if profileData exists, and navigate to the root page if it does.
+  useEffect(() => {
+    if (profileData) {
+      navigate("/");
+    }
+  }, [profileData, navigate]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -64,11 +71,11 @@ const StaffProfileForm = () => {
       );
 
       if (response.data) {
+        localStorage.setItem("profileData", JSON.stringify(response.data.data));
         setProfileData(response.data.data);
         navigate("/");
       }
     } catch (error) {
-      console.error("Error creating profile:", error);
       if (error.response) {
         // If there's a response from the server, show the server's error message
         setError(error.response.data.user[0]);
