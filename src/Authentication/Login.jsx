@@ -45,7 +45,7 @@ const Login = () => {
         );
       }
     } catch (error) {
-      console.error(error.response.data.non_field_errors[0]);
+      console.error(error);
       setError(error.response.data.non_field_errors[0]);
     } finally {
       setLoading(false);
