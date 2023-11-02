@@ -11,7 +11,6 @@ const GatePassData = () => {
   const [data, setData] = useState(null);
   const { token } = useAuth();
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,7 +86,7 @@ const GatePassData = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar/>
+      <Navbar />
       <div className="container mx-auto px-4 py-2 sm:px-8 md:px-12 lg:px-16 mt-5">
         <div className="grid gap-5 grid-cols-2 md:grid-cols-4 auto-rows-[180px]">
           <div className="p-5 rounded-lg border border-gray-400 row-span-2 md:row-span-4 col-span-2 md:col-span-1 flex flex-col gap-5">

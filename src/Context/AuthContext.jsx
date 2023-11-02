@@ -7,14 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [profileData, setProfileData] = useState(JSON.parse(localStorage.getItem('profileData')) || null); // Retrieve profileData from localStorage
 
-  // useEffect(() => {
-  //   // Whenever token or isVerified changes, update local storage
-  //   localStorage.setItem('token', token);
-  // }, [token, isVerified]);
-
   useEffect(() => {
+    localStorage.setItem('token', token);
     localStorage.setItem('profileData', JSON.stringify(profileData));
-  }, [profileData]);
+  }, [token, profileData]);
 
   return (
     <AuthContext.Provider value={{ token, setToken , isVerified , setIsVerified , profileData ,setProfileData}}>
